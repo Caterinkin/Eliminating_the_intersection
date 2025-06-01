@@ -5,14 +5,14 @@ class node
 {
 public:
     int m_value;
-    std::weak_ptr<node> parent;  // Используем weak_ptr вместо shared_ptr для разрыва цикла
+    std::weak_ptr<node> parent;  // РСЃРїРѕР»СЊР·СѓРµРј weak_ptr РІРјРµСЃС‚Рѕ shared_ptr РґР»СЏ СЂР°Р·СЂС‹РІР° С†РёРєР»Р°
 
     node(int value) : m_value{ value } {};
     ~node() { std::cout << "destructor called\n"; }
 
     void print_parent() const
     {
-        if (auto parent_ptr = parent.lock())  // Преобразуем weak_ptr в shared_ptr
+        if (auto parent_ptr = parent.lock())  // РџСЂРµРѕР±СЂР°Р·СѓРµРј weak_ptr РІ shared_ptr
         {
             std::cout << "Parent value: " << parent_ptr->m_value << std::endl;
         }
@@ -29,17 +29,17 @@ int main()
         auto node1 = std::make_shared<node>(1);
         auto node2 = std::make_shared<node>(2);
 
-        // Устанавливаем родительские связи
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂРѕРґРёС‚РµР»СЊСЃРєРёРµ СЃРІСЏР·Рё
         node1->parent = node2;
         node2->parent = node1;
 
-        // Демонстрация доступа к родителю
+        // Р”РµРјРѕРЅСЃС‚СЂР°С†РёСЏ РґРѕСЃС‚СѓРїР° Рє СЂРѕРґРёС‚РµР»СЋ
         std::cout << "Node1: ";
         node1->print_parent();
 
         std::cout << "Node2: ";
         node2->print_parent();
-    }  // Здесь деструкторы будут вызваны корректно
+    }  // Р—РґРµСЃСЊ РґРµСЃС‚СЂСѓРєС‚РѕСЂС‹ Р±СѓРґСѓС‚ РІС‹Р·РІР°РЅС‹ РєРѕСЂСЂРµРєС‚РЅРѕ
 
     return 0;
 }
